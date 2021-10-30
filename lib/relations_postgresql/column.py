@@ -4,8 +4,6 @@ Module for Column DDL
 
 # pylint: disable=unused-argument
 
-import json
-
 import relations_sql
 import relations_postgresql
 
@@ -40,7 +38,7 @@ class COLUMN(relations_postgresql.DDL, relations_sql.COLUMN):
         sql.append(self.KINDS.get(self.migration['kind'], self.KINDS["json"]))
 
         name, path = self.COLUMN_NAME.split(self.migration["store"])
-        sql.append(self.EXTRACT % (self.PATH % (self.quote(name), self.str(self.COLUMN_NAME.walk(path))), self.KINDS.get(kind, self.KINDS["json"])))
+        sql.append(self.EXTRACT % (self.PATH % (self.quote(name), self.str(self.walk(path))), self.KINDS.get(kind, self.KINDS["json"])))
 
     def kind(self, sql):
         """
