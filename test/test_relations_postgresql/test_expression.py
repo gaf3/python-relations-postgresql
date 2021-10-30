@@ -157,11 +157,6 @@ class TestCOLUMN_NAME(unittest.TestCase):
 
     maxDiff = None
 
-    def test_walk(self):
-
-        column, path = COLUMN_NAME.split("things__a__b__0____1")
-        self.assertEqual(COLUMN_NAME.walk(path), '{a,b,0,"1"}')
-
     def test_generate(self):
 
         expression = COLUMN_NAME("*")
