@@ -108,17 +108,17 @@ class TestPsycoPG2(unittest.TestCase):
             cursor.execute(query.sql, query.args)
 
             if cursor.rowcount != 1:
-                return None
+                name = None
+            else:
+                name = cursor.fetchone()["name"]
 
-            self.assertEqual(cursor.fetchone()["name"], value)
+            self.assertEqual(name, value, query.sql)
 
         check("yep", flag=True)
 
         check("dive", flag=False)
 
         check("dive", people={"tom", "mary"})
-
-        check("dive", stuff=[1, 2, 3, {"relations.io": {"1": None}}])
 
         check("dive", things={"a": {"b": [1, 2], "c": "sure"}, "4": 5, "for": [{"1": "yep"}]})
 
@@ -128,13 +128,13 @@ class TestPsycoPG2(unittest.TestCase):
 
         check("dive", things__a__c__like="su")
 
-        check("dive", things__a__d__null=True)
+        check("yep", things__a__b__null=True)
 
         check("dive", things____4=5)
 
         check(None, things__a__b__0__gt=1)
 
-        check(None, things__a__c__notlike="su")
+        check(None, things__a__c__not_like="su")
 
         check(None, things__a__d__null=False)
 
@@ -142,7 +142,11 @@ class TestPsycoPG2(unittest.TestCase):
 
         check("dive", things__a__b__has=1)
 
-        check(None, things__a__b__has=3)
+        check(None, things__a__b__has=[1, 3])
+
+        check("dive", name="dive", things__a__b__not_has=[1, 3])
+
+        check("dive", things__a__b__not_has=[1, 3], things__a__b__null=False)
 
         check("dive", things__a__b__any=[1, 3])
 
