@@ -1,7 +1,7 @@
 ACCOUNT=gaf3
 IMAGE=relations-postgresql
 INSTALL=python:3.8.5-alpine3.12
-VERSION?=0.1.0
+VERSION?=0.2.0
 NETWORK=relations.io
 POSTGRES_IMAGE=postgres:12.4-alpine
 POSTGRES_HOST=$(ACCOUNT)-$(IMAGE)-postgres
