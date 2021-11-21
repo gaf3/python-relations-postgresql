@@ -1,5 +1,5 @@
-git+https://github.com/gaf3/python-relations.git@0.6.5#egg=relations
-git+https://github.com/gaf3/python-relations-sql.git@0.6.1#egg=relations-sql
+git+https://github.com/relations-dil/python-relations.git@0.6.6#egg=python-relations
+git+https://github.com/relations-dil/python-relations-sql.git@0.6.2#egg=python-relations-sql
 psycopg2==2.8.6
 ptvsd==4.3.2
 coverage==5.2.1
