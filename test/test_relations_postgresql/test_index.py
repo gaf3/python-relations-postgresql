@@ -9,6 +9,27 @@ class TestINDEX(unittest.TestCase):
 
     maxDiff = None
 
+    def test_modify(self):
+
+        ddl = INDEX(name="people", columns=["stuff", "things"], definition={"name": "persons"})
+
+        ddl.modify()
+        self.assertEqual(ddl.sql, """ALTER INDEX "persons" RENAME TO "people\"""")
+
+        ddl = INDEX(
+            schema="people", table="stuff", name="things",
+            columns=["persons", "stuff__ins"], definition={
+                "name": "persons",
+                "table": {
+                    "name": "stuff",
+                    "schema": "people"
+                }
+            }
+        )
+
+        ddl.modify()
+        self.assertEqual(ddl.sql, """ALTER INDEX "people"."stuff_persons" RENAME TO "stuff_things\"""")
+
     def test_generate(self):
 
         ddl = INDEX(name="people", columns=["stuff", "things"])
@@ -26,7 +47,7 @@ class TestINDEX(unittest.TestCase):
         ddl = INDEX(name="people", columns=["stuff", "things"], definition={"name": "persons"})
 
         ddl.generate()
-        self.assertEqual(ddl.sql, """ALTER INDEX RENAME "persons" TO "people\"""")
+        self.assertEqual(ddl.sql, """ALTER INDEX "persons" RENAME TO "people\"""")
         self.assertEqual(ddl.args, [])
 
         ddl = INDEX(definition={"name": "persons"})
@@ -57,7 +78,7 @@ class TestUNIQUE(unittest.TestCase):
         ddl = UNIQUE(name="people", columns=["stuff", "things"], definition={"name": "persons"})
 
         ddl.generate()
-        self.assertEqual(ddl.sql, """ALTER INDEX RENAME "persons" TO "people\"""")
+        self.assertEqual(ddl.sql, """ALTER INDEX "persons" RENAME TO "people\"""")
         self.assertEqual(ddl.args, [])
 
         ddl = UNIQUE(definition={"name": "persons"})

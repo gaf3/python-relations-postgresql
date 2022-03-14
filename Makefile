@@ -1,7 +1,7 @@
 ACCOUNT=gaf3
 IMAGE=python-relations-postgresql
 INSTALL=python:3.8.5-alpine3.12
-VERSION?=0.5.0
+VERSION?=0.6.0
 NETWORK=relations.io
 POSTGRES_IMAGE=postgres:12.4-alpine
 POSTGRES_HOST=$(ACCOUNT)-$(IMAGE)-postgres
@@ -46,8 +46,9 @@ lint:
 setup:
 	docker run $(TTY) $(VOLUMES) $(INSTALL) sh -c "cp -r /opt/service /opt/install && cd /opt/install/ && \
 	apk update && apk add git && \
-	pip install git+https://github.com/relations-dil/python-relations.git@0.6.8#egg=python-relations && \
-	pip install git+https://github.com/relations-dil/python-relations-sql.git@0.6.4#egg=python-relations-sql && \
+	pip install \
+		git+https://github.com/relations-dil/python-relations.git@0.6.9#egg=python-relations \
+		git+https://github.com/relations-dil/python-relations-sql.git@0.6.5#egg=python-relations-sql && \
 	python setup.py install && \
 	python -m relations_postgresql.sql && \
 	python -m relations_postgresql.expression && \
