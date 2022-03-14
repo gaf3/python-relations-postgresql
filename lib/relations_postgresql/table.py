@@ -24,7 +24,7 @@ class TABLE(relations_postgresql.DDL, relations_sql.TABLE):
     STORE = """ALTER TABLE %s RENAME TO %s"""
     PRIMARY = """PRIMARY KEY (%s)"""
 
-    def name(self, state="migration", rename=False):
+    def name(self, state="migration", rename=False): # pylint: disable=arguments-differ
         """
         Generate a quoted name, with table as the default
         """
