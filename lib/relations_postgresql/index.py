@@ -17,8 +17,14 @@ class INDEX(relations_postgresql.DDL, relations_sql.INDEX):
     COLUMNS = relations_postgresql.COLUMN_NAMES
 
     CREATE = "INDEX"
-    MODIFY = "ALTER INDEX RENAME %s TO %s"
+    MODIFY = "ALTER INDEX %s RENAME TO %s"
 
+    def modify(self, **kwargs):
+        """
+        MODIFY DLL
+        """
+
+        self.sql = self.MODIFY % (self.name(definition=True), self.name(full=False))
 
 class UNIQUE(INDEX):
     """

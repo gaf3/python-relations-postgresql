@@ -26,6 +26,15 @@ class TestTABLE(unittest.TestCase):
 
     maxDiff = None
 
+    def test_name(self):
+
+        ddl = TABLE(schema="people", name="stuff", definition={"schema": "persons", "name": "things"})
+
+        self.assertEqual(ddl.name(), """"people"."stuff\"""")
+        self.assertEqual(ddl.name(state="definition"), """"persons"."things\"""")
+        self.assertEqual(ddl.name(state={"name": "definition", "schema": "migration"}), """"people"."things\"""")
+        self.assertEqual(ddl.name(state={"name": "definition", "schema": "migration"}, rename=True), """"things\"""")
+
     def test_create(self):
 
         ddl = TABLE(**Meta.thy().define())
@@ -82,7 +91,7 @@ CREATE UNIQUE INDEX "meta_name" ON "meta" ("name");
         )
 
         ddl.store(sql)
-        self.assertEqual(sql, ["""ALTER TABLE "evil" RENAME TO "good\""""])
+        self.assertEqual(sql, ["""ALTER TABLE "scheming"."evil" RENAME TO "good\""""])
 
     def test_modify(self):
 
@@ -100,7 +109,7 @@ CREATE UNIQUE INDEX "meta_name" ON "meta" ("name");
         ddl.generate()
         self.assertEqual(ddl.sql, """ALTER TABLE "scheming"."evil" SET SCHEMA "dreaming";
 
-ALTER TABLE "dreaming"."evil" RENAME TO "dreaming"."good";
+ALTER TABLE "dreaming"."evil" RENAME TO "good";
 """)
         self.assertEqual(ddl.args, [])
 
