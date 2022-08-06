@@ -1,4 +1,4 @@
-# python-relations-postgresql
+# relations-postgresql
 
 Module for interacting with Relations and PostgreSQL. It generates PostgreSQL compatible SQL from SQL like classes in Python.
 
